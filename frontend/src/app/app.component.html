@@ -1,0 +1,22 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<header>
+  <mat-toolbar color="primary">  
+    <mat-toolbar-row>
+      <button mat-button  routerLink="flashprog">Flash Programmer</button>
+      <!-- <button mat-button  routerLink="suota">Software Update Over The AIR</button> -->
+    </mat-toolbar-row>
+  </mat-toolbar>
+</header>
+<main>
+  <router-outlet></router-outlet>
+</main>
+<footer>
+  <mat-toolbar color="primary">  
+    <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between  center" >
+      <div>© 2020 EzFlash.org</div>
+      <div> Version {{ version_string }}<button *ngIf="update_available === true" mat-button color="accent" (click)="triggerUpdate()">Update</button></div>
+      <!-- <div *ngIf="connected === true"> Connection <mat-icon>link</mat-icon></div>
+      <div *ngIf="connected === false"> Connection <mat-icon>link_off</mat-icon></div> -->
+    </mat-toolbar-row>
+  </mat-toolbar>
+</footer>

@@ -1,0 +1,85 @@
+<h1>Device information</h1>
+<span>JLINK Probe: {{ deviceId}}</span>
+
+<mat-progress-bar mode="indeterminate" *ngIf="(deviceId != undefined && deviceLoaded == false) || flashInProgress"></mat-progress-bar>
+<span *ngIf="deviceId == null">No device selected</span>
+<div *ngIf="deviceId != null && deviceLoaded == true">
+    <div flex fxLayout="row" fxLayout.lt-sm="column">
+        <mat-card fxFlex="50">
+            <mat-card-title>{{ deviceType | deviceName }}</mat-card-title>
+            <mat-chip-list>
+                <mat-chip *ngIf="deviceIsRunning == true" color="primary" selected>Running</mat-chip>
+                <mat-chip *ngIf="deviceIsRunning != true" color="warn" selected>Stopped</mat-chip>
+            </mat-chip-list>
+            <img mat-card-image class="img" alt="image caption" src="assets/chips/{{deviceType}}.png">
+
+            <mat-card-actions>
+                <button mat-raised-button (click)="resetAndRun(deviceType,deviceId)"
+                    matTooltip="reset and run">
+                    <mat-icon>play_arrow</mat-icon>
+                </button>
+                <button mat-raised-button (click)="resetAndHalt(deviceType,deviceId)"
+                    matTooltip="reset and halt">
+                    <mat-icon>pause</mat-icon>
+                </button>
+            </mat-card-actions>
+
+        </mat-card>
+        <!-- Handle the two state when card -->
+        <mat-card fxFlex="50" *ngIf="flashDevice == 'Not probed';else flashIsProbed">
+            <mat-card-title>Flash Not found</mat-card-title>
+            <mat-card-subtitle>Flash device</mat-card-subtitle>
+            <img mat-card-image class="img" alt="image caption" src="assets/question-mark.png">
+        </mat-card>
+        <ng-template #flashIsProbed>
+            <mat-card fxFlex="50">
+                <mat-card-title>{{flashDevice}}</mat-card-title>
+                <mat-card-subtitle>Flash device</mat-card-subtitle>
+                <img mat-card-image class="img" alt="image caption" src="assets/chips/flash_chip.jpg">
+                <div class="center">
+                    <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
+                        (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+                        <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                            
+                            <div fxLayout="column" class="drop-zone">
+                                <div >
+                                    <span>Drag and drop application</span>
+                                </div>
+                                <div >
+                                    <button mat-raised-button (click)="openFileSelector()">Select File</button>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngx-file-drop>
+                    <div  class="upload-table">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                </tr>
+                            </thead>
+                            <tbody class="upload-name-style">
+                                <tr *ngFor="let item of files; let i=index">
+                                    <td><strong>{{ item.relativePath }}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <mat-card-actions>
+                    <button mat-raised-button (click)="eraseFlashDialog()" matTooltip="Erase Flash device">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    <button mat-raised-button matTooltip="Program Flash" (click)="programFlash()">
+                        <mat-icon>get_app</mat-icon>
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+        </ng-template>
+    </div>
+
+    <!-- <h2>{{ deviceType | deviceName }}</h2>
+    <mat-list>
+        <mat-list-item>Flash Device: {{ flashDevice}}</mat-list-item>
+    </mat-list> -->
+</div>

@@ -1,0 +1,6 @@
+**/__pycache__
+.venv
+pyu-data
+app_version.py
+.pyupdater
+**/.DS_Store

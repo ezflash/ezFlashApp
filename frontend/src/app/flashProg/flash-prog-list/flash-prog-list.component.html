@@ -1,0 +1,42 @@
+<!-- <mat-sidenav-container class="example-container">
+    <mat-sidenav mode="side" opened>
+        <span>Device List</span>
+        <mat-list>
+            <mat-list-item *ngFor="let device of devicesId">
+                <mat-icon matListIcon>devices</mat-icon>
+                <h3 matLine> {{ device }} </h3>
+                <p matLine>
+                <span> {{ device }} </span>
+                <span class="demo-2"> -- {{ device }} </span>
+                </p>
+            </mat-list-item>
+        </mat-list>
+    </mat-sidenav>
+    <mat-sidenav-content>Main Content</mat-sidenav-content>
+</mat-sidenav-container> -->
+
+<div flex fxLayout="row" fxLayout.lt-sm="column">
+    <div fxFlex="20">
+        <h2 matLine align="center"> Device list </h2>
+        <div *ngIf="devicesId && devicesId.length else noDeviceDetected">
+            <mat-nav-list >
+                <a mat-list-item *ngFor="let device of devicesId"   
+                [routerLink]="[ {id: device.deviceId} ]">
+                    <!-- <mat-icon matListIcon>memory</mat-icon> -->
+                    <h3 matLine> {{ device.deviceId }} </h3>
+                    <p matLine>
+                        <span> {{device.deviceName}} </span>
+                    </p>
+                    <!-- <button mat-icon-button (click)="showDeviceInfo(device)">
+                        <mat-icon>info</mat-icon>
+                    </button> -->
+                </a>
+            </mat-nav-list>
+
+        </div>
+        <ng-template #noDeviceDetected>
+            <h5 matLine  align="center"> No JLink probe detected </h5>
+        </ng-template>
+    </div>
+    <div fxFlex="80"><app-flash-prog-device></app-flash-prog-device></div>
+</div>
